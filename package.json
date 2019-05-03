@@ -1,0 +1,54 @@
+{
+  "name": "keyiu",
+  "version": "1.0.0",
+  "description": "A web framework's framework for Node.js",
+  "main": "src/index.ts",
+  "scripts": {
+    "launch": "tsc && node dist/server.js",
+    "start": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keyiu/keyiu.git"
+  },
+  "keywords": [
+    "web",
+    "application",
+    "app",
+    "http",
+    "framework",
+    "middleware",
+    "koa"
+  ],
+  "author": "wuweijie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keyiu/keyiu/issues"
+  },
+  "homepage": "https://github.com/keyiu/keyiu#readme",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-mount": "^4.0.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mysql2": "^1.6.5",
+    "qs": "^6.7.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "sequelize": "^5.8.2",
+    "sequelize-cli": "^5.4.0",
+    "ts-node": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-router": "^7.0.40",
+    "nodemon": "^1.19.0",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  }
+}
