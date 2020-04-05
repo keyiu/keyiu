@@ -19,11 +19,10 @@ export enum DataTypes {
 export class ValidatorError extends Error {
   public message: string;
 
-  public error: ValidatorError | ValidatorError[];
+  public error: ValidatorError | ValidatorError[] | undefined;
 
   constructor(message: string, error?: ValidatorError | ValidatorError[]) {
-    super();
-    super.message = message;
+    super(message);
     this.message = message;
     this.error = error;
   }

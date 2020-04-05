@@ -1,7 +1,6 @@
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
 import { AES, mode, pad, enc } from 'crypto-js';
-import config from '~config/config';
 import ErrorTypes from './ErrorTypes';
 import Errors from './Errors';
 
@@ -10,7 +9,7 @@ export const sha1 = (str: string) =>
 export const md5 = (str: string) =>
   crypto.createHash('md5').update(str).digest('hex').toUpperCase();
 
-export function encodeToken(data: any) {
+export function encodeToken(data: any, privateKey: string) {
   const exp = Date.now() + 7 * 24 * 60 * 60 * 1000;
   const header = Buffer.from(
     JSON.stringify({
@@ -25,11 +24,11 @@ export function encodeToken(data: any) {
       exp,
     }),
   ).toString('base64');
-  const secretStr = jwt.sign(`${header}.${payload}`, config.Key.privateKey, { algorithm: 'ES256' });
+  const secretStr = jwt.sign(`${header}.${payload}`, privateKey, { algorithm: 'ES256' });
   return `${header}.${payload}.${secretStr}`;
 }
 
-export function decodeToken(str: string) {
+export function decodeToken(str: string, publicKey: string) {
   const [header, payload, ...secretStr] = str.split('.');
   const info = JSON.parse(Buffer.from(payload, 'base64').toString());
   if (info.exp < Date.now()) {
@@ -37,7 +36,7 @@ export function decodeToken(str: string) {
   }
   if (
     [header, payload].join('.') ===
-    jwt.verify(secretStr.join('.'), config.Key.publicKey, { algorithms: ['ES256'] })
+    jwt.verify(secretStr.join('.'), publicKey, { algorithms: ['ES256'] })
   ) {
     return info;
   }

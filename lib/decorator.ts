@@ -9,7 +9,7 @@ export interface IParam {
   name: string;
   type: string;
   index: number;
-  option: IParamOptions;
+  option?: IParamOptions;
 }
 
 // 方法装饰器入参类别
@@ -18,7 +18,7 @@ export interface IMethod {
   httpMethod: HttpMethod;
   params: IParam[];
   isPublic?: boolean;
-  midwares: Array<() => void>;
+  midwares?: (() => void)[];
 }
 
 export interface IRouter {
@@ -28,7 +28,7 @@ export interface IRouter {
 export interface IClazz {
   baseUrl: string;
   routes: IRouter;
-  midwares: Array<() => void>;
+  midwares?: (() => void)[];
 }
 
 export const getClazz = (target: any): IClazz => {
@@ -50,7 +50,7 @@ export const getMethod = (target: any, methodName: string): IMethod => {
   return methodMeta;
 };
 // 类装饰器
-export function Path(baseUrl: string, midwares?: Array<() => void>) {
+export function Path(baseUrl: string, midwares?: (() => void)[]) {
   return (target: any) => {
     const meta = getClazz(target.prototype);
     meta.baseUrl = baseUrl;

@@ -5,7 +5,7 @@ export default class Errors extends Error {
 
   errorMessage: string;
 
-  errors: Errors[];
+  errors?: Errors[];
 
   constructor(code: ErrorTypes, message: string, errors?: Errors[]) {
     super(message);

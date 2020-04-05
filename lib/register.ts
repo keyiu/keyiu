@@ -1,18 +1,20 @@
 import { Context, Next } from 'koa';
-import * as Router from 'koa-router';
-import * as _ from 'lodash';
-import { decodeToken } from '../helpers/crypto';
+import Router from 'koa-router';
+import _ from 'lodash';
+import bytes from 'bytes';
 import Errors from '../helpers/Errors';
 import ErrorTypes from '../helpers/ErrorTypes';
 import log from '../helpers/log';
 import { ValidatorError } from '../helpers/validator';
-import { getClazz, IClazz, IMethod, IParam } from './decorator';
+import {
+  getClazz, IClazz, IMethod, IParam,
+} from './decorator';
 import { getIpByReq } from '../helpers/util';
-import bytes from 'bytes'
+import { decodeToken } from 'helpers/crypto';
 
 interface IExtractParameterResult {
-  result: any;
-  error: any
+  result?: any;
+  error?: any
 }
 /**
  * 从koa中获取相应参数并校验
@@ -56,12 +58,12 @@ function extractParameter(ctx: Router.RouterContext, param: IParam): IExtractPar
       break;
     }
     default: {
-      return value;
+      return {};
     }
   }
   return {
     result: value,
-    error: error
+    error,
   };
 }
 /**
@@ -113,7 +115,7 @@ function extractParameters(ctx: Router.RouterContext, params: IParam[]): [] {
   throw new ValidatorError('格式校验失败', result.errors);
 }
 
-function fnFactory(Service: any, methodName: string, method: IMethod) {
+function fnFactory(Service: any, methodName: string, method: IMethod, publicKey: string) {
   return async (ctx: Router.RouterContext) => {
     let logs = log;
     if (!method.isPublic) {
@@ -123,7 +125,7 @@ function fnFactory(Service: any, methodName: string, method: IMethod) {
         ctx.body = new Errors(ErrorTypes.NOT_HAVE_PERMISSION, '未登陆');
         return;
       }
-      const info = decodeToken(token);
+      const info = decodeToken(token, publicKey);
       if (info === false) {
         ctx.status = 401;
         ctx.body = new Errors(ErrorTypes.NOT_HAVE_PERMISSION, '未登陆');
@@ -170,13 +172,13 @@ function fnFactory(Service: any, methodName: string, method: IMethod) {
   };
 }
 
-export function registerService(App: any, services: any[]) {
+export function registerService(App: any, services: any[], publicKey: string) {
   const router = new Router({ prefix: '/api' });
   services.forEach((Service) => {
     const clazzInfo: IClazz = getClazz(Service.prototype);
     _.forEach(clazzInfo.routes, (method: IMethod, methodName: string) => {
       const path = `${clazzInfo.baseUrl}${method.subUrl}`;
-      router[method.httpMethod](path, fnFactory(Service, methodName, method));
+      router[method.httpMethod](path, fnFactory(Service, methodName, method, publicKey));
     });
   });
   App.use(async (ctx: Context, next: Next) => {

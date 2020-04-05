@@ -29,12 +29,12 @@ export function sql2pagination(options: { pageNum: number; pageSize: number; cou
 }
 
 export function getIpByReq(req: any): string {
-  const ipStr =
+  const ipStr: string =
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
-  return _.last(ipStr.split(':'));
+  return _.last(ipStr.split(':'))!;
 }
 
 export function toHump(name: string) {
