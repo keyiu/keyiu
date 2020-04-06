@@ -10,7 +10,7 @@ import {
   getClazz, IClazz, IMethod, IParam,
 } from './decorator';
 import { getIpByReq } from '../helpers/util';
-import { decodeToken } from 'helpers/crypto';
+import { decodeToken } from '../helpers/crypto';
 
 interface IExtractParameterResult {
   result?: any;
