@@ -1,8 +1,8 @@
 {
   "name": "keyiu",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "keyiu",
-  "main": "dist/lib/Application.js",
+  "main": "lib/Application.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "release": "tsc && npm publish"
@@ -15,7 +15,8 @@
     "framework"
   ],
   "files": [
-    "dist"
+    "lib",
+    "helpers"
   ],
   "author": "wu.weijie@outlook.com",
   "license": "ISC",
