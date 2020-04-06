@@ -67,6 +67,7 @@
   "exclude": [
     "node_modules",
     "lib",
-    "helpers"
+    "helpers",
+    "src/test"
   ]
 }
