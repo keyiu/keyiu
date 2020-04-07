@@ -11,20 +11,20 @@ export * from './decorator'
 
 export default class Keyiu {
   private workspace: string;
-  private app: Koa;
+  private _app: Koa;
   constructor(workspace: string) {
     this.workspace = workspace
-    this.app = new Koa();
+    this._app = new Koa();
   }
   async run(port: number | string, publicKey: string) {
-    this.app.use(bodyParser());
+    this._app.use(bodyParser());
     const services = await serviceLoader(this.workspace);
-    registerService(this.app, services, publicKey);
-    this.app.listen(port);
+    registerService(this._app, services, publicKey);
+    this._app.listen(port);
     log.info(`listening ${port}`);
   }
-  get use() {
-    return this.app.use
+  get app() {
+    return this._app;
   }
 }
 
