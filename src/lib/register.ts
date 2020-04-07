@@ -131,11 +131,10 @@ function fnFactory(Service: any, methodName: string, method: IMethod, publicKey:
         ctx.body = new Errors(ErrorTypes.NOT_HAVE_PERMISSION, '未登陆');
       }
       logs = logs.child({
-        email: info.email,
+        id: info.id,
       });
       ctx.state.tokenInfo = info;
     }
-    const startAt = new Date().getTime();
     const serviceInstance = new Service();
     const { params } = method;
     const methodParams = extractParameters(ctx, params);
@@ -155,20 +154,6 @@ function fnFactory(Service: any, methodName: string, method: IMethod, publicKey:
         ctx.body = new Errors(ErrorTypes.UNKNOW_ERROR, '网络异常，请检查网络后重试');
       }
     }
-    const time = new Date().getTime() - startAt;
-    const size = (bytes(ctx.response.length) || '').toLowerCase();
-    const ip = getIpByReq(ctx.req);
-    const requestLog = {
-      ip,
-      token: ctx.header.authorization,
-      method: ctx.method,
-      url: ctx.url,
-      time,
-      status: ctx.status,
-      size,
-      body: ctx.request.rawBody,
-    };
-    console.log(requestLog);
   };
 }
 

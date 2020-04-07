@@ -1,6 +1,6 @@
 {
   "name": "keyiu",
-  "version": "0.0.8",
+  "version": "0.0.11",
   "description": "keyiu",
   "main": "lib/Application.js",
   "scripts": {
@@ -26,7 +26,6 @@
   "homepage": "https://github.com/keyiu/keyiu#readme",
   "dependencies": {
     "@types/bunyan": "^1.8.6",
-    "@types/bytes": "^3.1.0",
     "@types/crypto-js": "^3.1.44",
     "@types/jest": "^25.2.1",
     "@types/jsonwebtoken": "^8.3.8",
@@ -37,7 +36,6 @@
     "@types/supertest": "^2.0.8",
     "bull": "^3.13.0",
     "bunyan": "^1.8.12",
-    "bytes": "^3.1.0",
     "crypto-js": "^4.0.0",
     "global": "^4.4.0",
     "jsonwebtoken": "^8.5.1",
