@@ -1,10 +1,10 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import path from 'path';
-import log from '../helpers/log';
 import { serviceLoader } from './loader';
 import { registerService } from './register';
+import log from '../helpers/log';
 
+export { default as log } from '../helpers/log';
 export { default as  BaseApi} from './BaseApi'
 export { Context } from 'koa'
 export * from './decorator'
