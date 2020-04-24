@@ -8,7 +8,7 @@ export async function serviceLoader(workspace: string) {
   const clazzs = await Promise.all(
     fs
       .readdirSync(serviceBasePath)
-      .filter((file) => !(/\.map$/.test(file) || /\.spec$/.test(file)))
+      .filter((file) => !(/\.map$/.test(file) || /\.spec\./.test(file)))
       .map(async (file) => {
         const filePath = `${serviceBasePath}/${file}`;
         const { default: clazz } = await import(filePath);
