@@ -119,6 +119,7 @@ export const QueryParam = MethodParamFactory('query');
 export const BodyParam = MethodParamFactory('body');
 export const CookieParam = MethodParamFactory('cookie');
 export const HeaderParam = MethodParamFactory('header');
+export const StateParam = MethodParamFactory('state');
 export const TokenParam = MethodParamFactory('token');
 
 const ContextParamFactory = (paramType: string) => ParamFactory(paramType);

@@ -42,7 +42,11 @@ function extractParameter(ctx: Router.RouterContext, param: IParam): IExtractPar
       break;
     }
     case 'header': {
-      value = ctx.request.header;
+      value = ctx.request.header[param.name];
+      break;
+    }
+    case 'state': {
+      value = ctx.state[param.name];
       break;
     }
     case 'body': {
