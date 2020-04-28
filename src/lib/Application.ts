@@ -7,6 +7,7 @@ import log from '../helpers/log';
 export { default as log } from '../helpers/log';
 export { default as  BaseApi} from './BaseApi'
 export { Context } from 'koa'
+export { default as Errors} from '../helpers/Errors'
 export * from './decorator'
 
 export default class Keyiu {

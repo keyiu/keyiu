@@ -1,13 +1,13 @@
 import ErrorTypes from './ErrorTypes';
 
 export default class Errors extends Error {
-  errorCode: ErrorTypes;
+  errorCode: number;
 
   errorMessage: string;
 
   errors?: Errors[];
 
-  constructor(code: ErrorTypes, message: string, errors?: Errors[]) {
+  constructor(code: number, message: string, errors?: Errors[]) {
     super(message);
     this.errorCode = code;
     this.errorMessage = message;
