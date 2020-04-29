@@ -12,5 +12,6 @@ export default class Errors extends Error {
     this.errorCode = code;
     this.errorMessage = message;
     this.errors = errors;
+    Object.setPrototypeOf(this, Errors.prototype);
   }
 }
