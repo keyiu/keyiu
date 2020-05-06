@@ -26,35 +26,35 @@ function extractParameter(ctx: Router.RouterContext, param: IParam): IExtractPar
   let error;
   switch (param.type) {
     case 'query': {
-      value = ctx.query[param.name];
+      value = ctx.query?.[param.name];
       break;
     }
     case 'path': {
-      value = ctx.params[param.name];
+      value = ctx.params?.[param.name];
       break;
     }
     case 'form': {
-      value = ctx.query[param.name];
+      value = ctx.query?.[param.name];
       break;
     }
     case 'cookie': {
-      value = ctx.query[param.name];
+      value = ctx.query?.[param.name];
       break;
     }
     case 'header': {
-      value = ctx.request.header[param.name];
+      value = ctx.request.header?.[param.name];
       break;
     }
     case 'state': {
-      value = ctx.state[param.name];
+      value = ctx.state?.[param.name];
       break;
     }
     case 'body': {
-      value = ctx.request.body[param.name];
+      value = ctx.request.body?.[param.name];
       break;
     }
     case 'token': {
-      value = ctx.state.tokenInfo[param.name];
+      value = ctx.state.tokenInfo?.[param.name];
       break;
     }
     case 'context': {
