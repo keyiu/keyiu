@@ -1,12 +1,13 @@
-import Koa, {Context} from 'koa';
+import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { serviceLoader } from './loader';
 import { registerService } from './register';
 import log from '../helpers/log';
 export { default as log } from '../helpers/log';
-export { default as  BaseApi} from './BaseApi'
-export { default as Errors} from '../helpers/Errors'
-export { default as SystemErrors} from '../helpers/ErrorTypes'
+export { default as  BaseApi } from './BaseApi'
+export { default as Errors } from '../helpers/Errors'
+export { default as SystemErrors } from '../helpers/ErrorTypes'
+export { Context as Context } from 'koa'
 export * from './decorator'
 
 export default class Keyiu {
