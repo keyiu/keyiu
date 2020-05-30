@@ -67,16 +67,20 @@ export function PublicMethod(
   const meta = getMethod(target, methodName);
   meta.isPublic = true;
 }
-const MethodFactory = (httpMethod: HttpMethod, state?: any) => (
+const MethodFactory = (httpMethod: HttpMethod) => (
   url: string,
-  midwares?: any[],
+  option?:
+  {
+    midwares?: any[],
+    state?: any
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ) => (target: any, methodName: string, descriptor: PropertyDescriptor) => {
   const meta = getMethod(target, methodName);
   meta.subUrl = url;
   meta.httpMethod = httpMethod;
-  meta.state = state;
-  meta.midwares = midwares;
+  meta.state = option?.state;
+  meta.midwares = option?.midwares;
   meta.params.sort((param1: IParam, param2: IParam) => param1.index - param2.index);
 };
 
