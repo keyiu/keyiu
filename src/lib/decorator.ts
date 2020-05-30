@@ -16,6 +16,7 @@ export interface IParam {
 export interface IMethod {
   subUrl: string;
   httpMethod: HttpMethod;
+  state?: any;
   params: IParam[];
   isPublic?: boolean;
   midwares?: (() => void)[];
@@ -66,7 +67,7 @@ export function PublicMethod(
   const meta = getMethod(target, methodName);
   meta.isPublic = true;
 }
-const MethodFactory = (httpMethod: HttpMethod) => (
+const MethodFactory = (httpMethod: HttpMethod, state?: any) => (
   url: string,
   midwares?: any[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,6 +75,7 @@ const MethodFactory = (httpMethod: HttpMethod) => (
   const meta = getMethod(target, methodName);
   meta.subUrl = url;
   meta.httpMethod = httpMethod;
+  meta.state = state;
   meta.midwares = midwares;
   meta.params.sort((param1: IParam, param2: IParam) => param1.index - param2.index);
 };

@@ -1,4 +1,4 @@
-import { Context, Next } from 'koa';
+import Koa, { Context, Next } from 'koa';
 import Router from 'koa-router';
 import _ from 'lodash';
 import bytes from 'bytes';
@@ -11,6 +11,7 @@ import {
 } from './decorator';
 import { getIpByReq } from '../helpers/util';
 import { decodeToken } from '../helpers/crypto';
+import { Hooks } from './Hooks';
 
 interface IExtractParameterResult {
   result?: any;
@@ -21,7 +22,7 @@ interface IExtractParameterResult {
  * @param ctx koa上下文
  * @param param 参数内容
  */
-function extractParameter(ctx: Router.RouterContext, param: IParam): IExtractParameterResult {
+function extractParameter(ctx: Context, param: IParam): IExtractParameterResult {
   let value;
   let error;
   switch (param.type) {
@@ -75,7 +76,7 @@ function extractParameter(ctx: Router.RouterContext, param: IParam): IExtractPar
  * @param ctx koa上下文
  * @param params 参数内容
  */
-function extractParameters(ctx: Router.RouterContext, params: IParam[]): [] {
+function extractParameters(ctx: Context, params: IParam[]): [] {
   if (!params) {
     return [];
   }
@@ -119,8 +120,16 @@ function extractParameters(ctx: Router.RouterContext, params: IParam[]): [] {
   throw new ValidatorError('格式校验失败', result.errors);
 }
 
-function fnFactory(Service: any, methodName: string, method: IMethod, publicKey: string) {
-  return async (ctx: Router.RouterContext) => {
+function fnFactory(Service: any, methodName: string, method: IMethod, hooks: Hooks, publicKey: string) {
+  return async (ctx: Context) => {
+    if (method.state) {
+      ctx.state = {...method.state, ...ctx.state}
+    }
+    if (hooks.globalBeforeCallHooks.length > 0) {
+      await _.reduce(hooks.globalBeforeCallHooks, (phook, ohook) => phook.then(async () => {
+        await ohook(ctx);
+      }), Promise.resolve());
+    }
     let logs = log;
     if (!method.isPublic) {
       const token = ctx.header.authorization;
@@ -161,13 +170,13 @@ function fnFactory(Service: any, methodName: string, method: IMethod, publicKey:
   };
 }
 
-export function registerService(App: any, services: any[], publicKey: string) {
+export function registerService(App: Koa, services: any[], hooks: Hooks, publicKey: string) {
   const router = new Router({ prefix: '/api' });
   services.forEach((Service) => {
     const clazzInfo: IClazz = getClazz(Service.prototype);
     _.forEach(clazzInfo.routes, (method: IMethod, methodName: string) => {
       const path = `${clazzInfo.baseUrl}${method.subUrl}`;
-      router[method.httpMethod](path, fnFactory(Service, methodName, method, publicKey));
+      router[method.httpMethod](path, fnFactory(Service, methodName, method, hooks, publicKey));
     });
   });
   App.use(async (ctx: Context, next: Next) => {
