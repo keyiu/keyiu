@@ -55,7 +55,7 @@ export function objKeystoLine(obj: any) {
     {},
   );
 }
-export async function getRawBody(ctx: Context, encode: string = 'utf8'): Promise<string> {
+export async function getRawBody(ctx: Context, encode: BufferEncoding = 'utf8'): Promise<string> {
   ctx.req.setEncoding(encode);
   return new Promise((resolve) => {
     let buf = '';

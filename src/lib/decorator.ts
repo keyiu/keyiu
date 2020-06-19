@@ -19,6 +19,7 @@ export interface IMethod {
   state?: any;
   params: IParam[];
   isPublic?: boolean;
+  pluralize?: boolean;
   midwares?: (() => void)[];
 }
 
@@ -71,6 +72,7 @@ const MethodFactory = (httpMethod: HttpMethod) => (
   url: string,
   option?:
   {
+    pluralize?: boolean,
     midwares?: any[],
     state?: any
   }
@@ -81,6 +83,7 @@ const MethodFactory = (httpMethod: HttpMethod) => (
   meta.httpMethod = httpMethod;
   meta.state = option?.state;
   meta.midwares = option?.midwares;
+  meta.pluralize = option?.pluralize;
   meta.params.sort((param1: IParam, param2: IParam) => param1.index - param2.index);
 };
 
