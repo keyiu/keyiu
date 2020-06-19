@@ -177,6 +177,9 @@ export function registerService(App: Koa, services: any[], hooks: Hooks, publicK
     const clazzInfo: IClazz = getClazz(Service.prototype);
     _.forEach(clazzInfo.routes, (method: IMethod, methodName: string) => {
       const path = `${method.pluralize ?  pluralize(clazzInfo.baseUrl) : clazzInfo.baseUrl }${method.subUrl}`;
+      if (process.env.NODE_ENVIRONMENT !== 'production'){
+        log.info(`${method.httpMethod} ${path}`);
+      }
       router[method.httpMethod](path, fnFactory(Service, methodName, method, hooks, publicKey));
     });
   });
