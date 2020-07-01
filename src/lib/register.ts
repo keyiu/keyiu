@@ -65,6 +65,10 @@ function extractParameter(ctx: Context, param: IParam): IExtractParameterResult 
       value = ctx;
       break;
     }
+    case 'file': {
+      value = ctx.file;
+      break;
+    }
     default: {
       return {};
     }

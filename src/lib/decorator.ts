@@ -69,7 +69,7 @@ export function PublicMethod(
   const meta = getMethod(target, methodName);
   meta.isPublic = true;
 }
-export const File = (fileName: string) => {
+export const FileMethod = (fileName: string) => {
   return (
     target: any,
     methodName: string,
@@ -150,3 +150,4 @@ const ContextParamFactory = (paramType: string) => ParamFactory(paramType);
 export const RequestParam = ContextParamFactory('request');
 export const ResponseParam = ContextParamFactory('response');
 export const ContextParam = ContextParamFactory('context');
+export const FileParam = ContextParamFactory('file');
