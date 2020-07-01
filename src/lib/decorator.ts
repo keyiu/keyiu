@@ -19,6 +19,7 @@ export interface IMethod {
   state?: any;
   params: IParam[];
   isPublic?: boolean;
+  fileName?: string;
   pluralize?: boolean;
   midwares?: (() => void)[];
 }
@@ -68,6 +69,20 @@ export function PublicMethod(
   const meta = getMethod(target, methodName);
   meta.isPublic = true;
 }
+export const File = (fileName: string) => {
+  return (
+    target: any,
+    methodName: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    descriptor: PropertyDescriptor,
+  ) => {
+    const meta = getMethod(target, methodName);
+    meta.isPublic = true;
+    meta.fileName = fileName;
+  }
+}
+
+
 const MethodFactory = (httpMethod: HttpMethod) => (
   url: string,
   option?:

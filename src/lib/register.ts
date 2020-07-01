@@ -3,6 +3,7 @@ import Router from 'koa-router';
 import _ from 'lodash';
 import bytes from 'bytes';
 import pluralize from 'pluralize';
+import multer from '@koa/multer';
 import Errors from '../helpers/Errors';
 import ErrorTypes from '../helpers/ErrorTypes';
 import log from '../helpers/log';
@@ -14,6 +15,7 @@ import { getIpByReq } from '../helpers/util';
 import { decodeToken } from '../helpers/crypto';
 import { Hooks } from './Hooks';
 
+const upload = multer({ dest: 'uploads/' });
 interface IExtractParameterResult {
   result?: any;
   error?: any
@@ -122,7 +124,7 @@ function extractParameters(ctx: Context, params: IParam[]): [] {
 }
 
 function fnFactory(Service: any, methodName: string, method: IMethod, hooks: Hooks, publicKey: string) {
-  return async (ctx: Context) => {
+  return async (ctx: any) => {
     if (method.state) {
       ctx.state = {...method.state, ...ctx.state}
     }
@@ -180,7 +182,11 @@ export function registerService(App: Koa, services: any[], hooks: Hooks, publicK
       if (process.env.NODE_ENVIRONMENT !== 'production'){
         log.info(`${method.httpMethod} ${path}`);
       }
-      router[method.httpMethod](path, fnFactory(Service, methodName, method, hooks, publicKey));
+      if (method.fileName) {
+        router[method.httpMethod](path, upload.single(method.fileName), fnFactory(Service, methodName, method, hooks, publicKey));
+      } else {
+        router[method.httpMethod](path, fnFactory(Service, methodName, method, hooks, publicKey));
+      }
     });
   });
   App.use(async (ctx: Context, next: Next) => {
