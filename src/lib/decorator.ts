@@ -77,7 +77,6 @@ export const FileMethod = (fileName: string) => {
     descriptor: PropertyDescriptor,
   ) => {
     const meta = getMethod(target, methodName);
-    meta.isPublic = true;
     meta.fileName = fileName;
   }
 }
