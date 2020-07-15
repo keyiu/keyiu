@@ -34,8 +34,7 @@ export interface IClazz {
   midwares?: (() => void)[];
 }
 
-export const getClazz = (target: any): IClazz => {
-  // eslint-disable-next-line
+export const getClazz = (target: any = {}): IClazz => {
   target.$Meta = target.$Meta || { baseUrl: "", routes: {} };
   return target.$Meta;
 };
