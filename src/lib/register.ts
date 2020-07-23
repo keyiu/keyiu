@@ -110,7 +110,7 @@ function extractParameters(ctx: Context, params: IParam[]): [] {
               fr = res1;
           }
         }
-        fr = fr || res1;
+        fr = fr ?? res1;
         if (!fr && param.option && param.option.defaultValue) {
           fr = param.option && param.option.defaultValue;
         }
