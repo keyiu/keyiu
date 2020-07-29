@@ -1,6 +1,6 @@
 {
   "name": "keyiu",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "keyiu",
   "main": "lib/Application.js",
   "scripts": {
