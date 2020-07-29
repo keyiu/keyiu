@@ -34,7 +34,7 @@ export function getIpByReq(req: any): string {
     req.connection?.remoteAddress ||
     req.socket?.remoteAddress ||
     req.connection?.socket?.remoteAddress;
-  return _.last(ipStr.split(':'))!;
+  return _.last((ipStr || '').split(':'))!;
 }
 
 export function toHump(name: string) {
