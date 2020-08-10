@@ -47,10 +47,14 @@ export function decodeToken(str: string, publicKey: string) {
   return false;
 }
 
-export function randomStr(length: number) {
+export function randomStr(length: number, isNumber?: boolean) {
   let str = '';
   while (str.length < length) {
-    str += Math.random().toString(32).substr(2).toUpperCase();
+    if (isNumber) {
+      str += Math.random().toString().substr(2).toUpperCase();
+    } else {
+      str += Math.random().toString(32).substr(2).toUpperCase();
+    }
   }
   return str.slice(0, length);
 }
