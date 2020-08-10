@@ -151,6 +151,7 @@ function fnFactory(
       if (info === false) {
         ctx.status = 401;
         ctx.body = new Errors(ErrorTypes.NOT_HAVE_PERMISSION, '未登陆');
+        return;
       }
       logs = logs.child({
         id: info.id,
