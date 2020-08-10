@@ -1,8 +1,8 @@
 import { Context } from 'koa';
-import * as _ from 'lodash';
-import * as qs from 'qs';
-import * as iconv from 'iconv-lite';
-import * as querystring from 'querystring';
+import _ from 'lodash';
+import qs from 'qs';
+import iconv from 'iconv-lite';
+import querystring from 'querystring';
 
 export function stringifyQuery(query: any) {
   return qs.stringify(query);

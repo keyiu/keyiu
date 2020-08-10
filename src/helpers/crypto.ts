@@ -1,5 +1,5 @@
-import * as crypto from 'crypto';
-import * as jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 import { AES, mode, pad, enc } from 'crypto-js';
 import ErrorTypes from './ErrorTypes';
 import Errors from './Errors';

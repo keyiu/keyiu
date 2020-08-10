@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import fs from 'fs';
 /**
  * 获取装载项目的所有controller
  * @param workspace 项目的根目录

@@ -1,5 +1,3 @@
-import ErrorTypes from './ErrorTypes';
-
 export default class Errors extends Error {
   errorCode: number;
 
