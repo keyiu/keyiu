@@ -9,6 +9,7 @@ export { default as BaseApi } from './BaseApi';
 export { default as Errors } from '../helpers/Errors';
 export { default as SystemErrors } from '../helpers/ErrorTypes';
 export { Context, Next } from 'koa';
+export { encodeToken, decodeToken } from '../helpers/crypto';
 export * from './decorator';
 
 export default class Keyiu {
