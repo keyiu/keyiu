@@ -1,13 +1,13 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import { AES, mode, pad, enc } from 'crypto-js';
+import {
+  AES, mode, pad, enc,
+} from 'crypto-js';
 import ErrorTypes from './ErrorTypes';
 import Errors from './Errors';
 
-export const sha1 = (str: string) =>
-  crypto.createHash('sha1').update(str).digest('hex').toUpperCase();
-export const md5 = (str: string) =>
-  crypto.createHash('md5').update(str).digest('hex').toUpperCase();
+export const sha1 = (str: string) => crypto.createHash('sha1').update(str).digest('hex').toUpperCase();
+export const md5 = (str: string) => crypto.createHash('md5').update(str).digest('hex').toUpperCase();
 
 export function encodeToken(data: any, privateKey: string) {
   const exp = Date.now() + 7 * 24 * 60 * 60 * 1000;
@@ -34,11 +34,15 @@ export function decodeToken(str: string, publicKey: string) {
   if (info.exp < Date.now()) {
     return false;
   }
-  if (
-    [header, payload].join('.') ===
-    jwt.verify(secretStr.join('.'), publicKey, { algorithms: ['ES256'] })
-  ) {
-    return info;
+  try {
+    if (
+      [header, payload].join('.')
+      === jwt.verify(secretStr.join('.'), publicKey, { algorithms: ['ES256'] })
+    ) {
+      return info;
+    }
+  } catch (error) {
+    return false;
   }
   return false;
 }
@@ -78,7 +82,9 @@ export function decryptData(data: {
   sessionKey: string;
   appId: string;
 }) {
-  const { encryptedData: _encryptedData, iv: _iv, sessionKey: _sessionKey, appId } = data;
+  const {
+    encryptedData: _encryptedData, iv: _iv, sessionKey: _sessionKey, appId,
+  } = data;
   const sessionKey = Buffer.from(_sessionKey, 'base64');
   const encryptedData = Buffer.from(_encryptedData, 'base64');
   const iv = Buffer.from(_iv, 'base64');

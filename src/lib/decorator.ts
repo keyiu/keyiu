@@ -35,15 +35,15 @@ export interface IClazz {
 }
 
 export const getClazz = (target: any = {}): IClazz => {
-  target.$Meta = target.$Meta || { baseUrl: "", routes: {} };
+  // eslint-disable-next-line no-param-reassign
+  target.$Meta = target.$Meta || { baseUrl: '', routes: {} };
   return target.$Meta;
 };
 
 export const getMethod = (target: any, methodName: string): IMethod => {
   const meta = getClazz(target);
-  const methodMeta =
-    meta.routes[methodName] ||
-    (meta.routes[methodName] = {
+  const methodMeta = meta.routes[methodName]
+    || (meta.routes[methodName] = {
       httpMethod: 'get',
       midwares: [],
       params: [],
@@ -68,18 +68,15 @@ export function PublicMethod(
   const meta = getMethod(target, methodName);
   meta.isPublic = true;
 }
-export const FileMethod = (fileName: string) => {
-  return (
-    target: any,
-    methodName: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    descriptor: PropertyDescriptor,
-  ) => {
-    const meta = getMethod(target, methodName);
-    meta.fileName = fileName;
-  }
-}
-
+export const FileMethod = (fileName: string) => (
+  target: any,
+  methodName: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  descriptor: PropertyDescriptor,
+) => {
+  const meta = getMethod(target, methodName);
+  meta.fileName = fileName;
+};
 
 const MethodFactory = (httpMethod: HttpMethod) => (
   url: string,
@@ -88,7 +85,7 @@ const MethodFactory = (httpMethod: HttpMethod) => (
     pluralize?: boolean,
     midwares?: any[],
     state?: any
-  }
+  },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ) => (target: any, methodName: string, descriptor: PropertyDescriptor) => {
   const meta = getMethod(target, methodName);

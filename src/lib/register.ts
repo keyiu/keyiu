@@ -127,10 +127,12 @@ function extractParameters(ctx: Context, params: IParam[]): [] {
   throw new ValidatorError('格式校验失败', result.errors);
 }
 
-function fnFactory(Service: any, methodName: string, method: IMethod, hooks: Hooks, publicKey: string) {
+function fnFactory(
+  Service: any, methodName: string, method: IMethod, hooks: Hooks, publicKey: string,
+) {
   return async (ctx: any) => {
     if (method.state) {
-      ctx.state = {...method.state, ...ctx.state}
+      ctx.state = { ...method.state, ...ctx.state };
     }
     if (hooks.globalBeforeCallHooks.length > 0) {
       await _.reduce(hooks.globalBeforeCallHooks, (phook, ohook) => phook.then(async () => {
@@ -182,12 +184,15 @@ export function registerService(App: Koa, services: any[], hooks: Hooks, publicK
   services.forEach((Service) => {
     const clazzInfo: IClazz = getClazz(Service.prototype);
     _.forEach(clazzInfo.routes, (method: IMethod, methodName: string) => {
-      const path = `${method.pluralize ?  pluralize(clazzInfo.baseUrl) : clazzInfo.baseUrl }${method.subUrl}`;
-      if (process.env.NODE_ENVIRONMENT !== 'production'){
+      const path = `${method.pluralize ? pluralize(clazzInfo.baseUrl) : clazzInfo.baseUrl}${method.subUrl}`;
+      if (process.env.NODE_ENVIRONMENT !== 'production') {
         log.info(`${method.httpMethod} ${path}`);
       }
       if (method.fileName) {
-        router[method.httpMethod](path, upload.single(method.fileName), fnFactory(Service, methodName, method, hooks, publicKey));
+        router[method.httpMethod](
+          path, upload.single(method.fileName),
+          fnFactory(Service, methodName, method, hooks, publicKey),
+        );
       } else {
         router[method.httpMethod](path, fnFactory(Service, methodName, method, hooks, publicKey));
       }
