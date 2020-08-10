@@ -8,7 +8,7 @@ export { default as log } from '../helpers/log';
 export { default as BaseApi } from './BaseApi';
 export { default as Errors } from '../helpers/Errors';
 export { default as SystemErrors } from '../helpers/ErrorTypes';
-export { Context } from 'koa';
+export { Context, Next } from 'koa';
 export * from './decorator';
 
 export default class Keyiu {
@@ -37,7 +37,7 @@ export default class Keyiu {
     log.info(`listening ${port}`);
   }
 
-  get app() {
+  get app(): Koa {
     return this._app;
   }
 }
