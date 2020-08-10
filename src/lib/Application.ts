@@ -62,7 +62,7 @@ export default class Keyiu {
     return decodeToken(str, this.publicKey);
   }
 
-  encodeToken(str: string) {
-    return encodeToken(str, this.privateKey);
+  encodeToken(data: any) {
+    return encodeToken(data, this.privateKey);
   }
 }
