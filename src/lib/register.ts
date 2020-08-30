@@ -2,7 +2,6 @@ import Koa, { Context, Next } from 'koa';
 import Router from 'koa-router';
 import _ from 'lodash';
 import bytes from 'bytes';
-import pluralize from 'pluralize';
 import multer from '@koa/multer';
 import Errors from '../helpers/Errors';
 import ErrorTypes from '../helpers/ErrorTypes';
@@ -185,7 +184,7 @@ export function registerService(App: Koa, services: any[], hooks: Hooks, publicK
   services.forEach((Service) => {
     const clazzInfo: IClazz = getClazz(Service.prototype);
     _.forEach(clazzInfo.routes, (method: IMethod, methodName: string) => {
-      const path = `${method.pluralize ? pluralize(clazzInfo.baseUrl) : clazzInfo.baseUrl}${method.subUrl}`;
+      const path = `${clazzInfo.baseUrl}${method.subUrl}`;
       if (process.env.NODE_ENVIRONMENT !== 'production') {
         log.info(`${method.httpMethod} ${path}`);
       }
